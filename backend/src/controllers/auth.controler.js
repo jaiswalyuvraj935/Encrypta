@@ -98,20 +98,21 @@ export const logout = (req, res) => {
 export const updateProfile = async (req, res) => {
   try {
     const { profilePic } = req.body;
-    const userId = req.user?._id; // Optional chaining prevents crashing if req.user is undefined
+    const userId = req.user?._id;
 
     if (!profilePic) {
       return res.status(400).json({ message: "Profile picture is required" });
     }
 
-    // Upload image string (e.g., base64) to Cloudinary
-    const uploadResponse = await cloudinary.uploader.upload(profilePic);
+    const uploadResponse = await cloudinary.uploader.upload(profilePic, {
+      folder: "profile_pics",
+    });
 
-    // Update user document and return the new document minus the password
+    // ✅ Replaced { new: true } with { returnDocument: "after" }
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       { profilePic: uploadResponse.secure_url },
-      { new: true }
+      { returnDocument: "after" }
     ).select("-password");
 
     if (!updatedUser) {
@@ -120,7 +121,7 @@ export const updateProfile = async (req, res) => {
 
     return res.status(200).json(updatedUser);
   } catch (error) {
-    console.error("Error in update profile:", error); // Fixed typo here (commas instead of dot)
+    console.error("Error in update profile:", error);
     return res.status(500).json({ message: "Internal server error" });
   }
 };
