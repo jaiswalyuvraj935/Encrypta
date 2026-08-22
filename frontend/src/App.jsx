@@ -11,15 +11,13 @@ import SettingsPage from "./pages/SettingsPage";
 import { useAuthStore } from './store/useAuthStore';
 
 const App = () => {
-  // Renamed ischecking -> isChecking to align with typical Zustand naming
-  const { authUser, checkAuth, isChecking } = useAuthStore();
+  const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
 
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
 
-  // Show full-screen loader while checking initial auth status
-  if (isChecking) {
+  if (isCheckingAuth) {
     return (
       <div className='flex items-center justify-center h-screen'>
         <Loader className="size-10 animate-spin" />
