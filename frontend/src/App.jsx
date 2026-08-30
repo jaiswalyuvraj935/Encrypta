@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Routes, Route, Navigate } from "react-router-dom";
 import { Loader } from "lucide-react";
+import { Toaster } from "react-hot-toast";
 
 import Navbar from './components/Navbar';
 import HomePage from "./pages/HomePage";
@@ -29,6 +30,7 @@ const App = () => {
   return (
     <div data-theme={theme}>
       <Navbar />
+      <Toaster />
 
       <Routes>
         {/* Protected routes */}
