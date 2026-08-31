@@ -13,13 +13,16 @@ dotenv.config();
 
 const PORT = process.env.PORT || 5001;
 
-const allowedOrigins = process.env.CLIENT_URL
-  ? [process.env.CLIENT_URL, "http://localhost:5173", "http://localhost:5174"]
-  : ["http://localhost:5173", "http://localhost:5174"];
+const allowedOrigins = [
+  "https://encrypta-self.vercel.app",
+  "http://localhost:5173",
+  "http://localhost:5174",
+  ...(process.env.CLIENT_URL ? [process.env.CLIENT_URL] : [])
+];
 
 app.use(cors({
-    origin: allowedOrigins,
-    credentials: true,
+  origin: allowedOrigins,
+  credentials: true,
 }));
 
 app.use(express.json({ limit: "10mb" }));
