@@ -19,11 +19,14 @@ const allowedOrigins = [
   "http://localhost:5174",
   ...(process.env.CLIENT_URL ? [process.env.CLIENT_URL] : [])
 ];
+// Express must trust the Render proxy to send secure cookies
+app.set("trust proxy", 1);
 
 app.use(cors({
   origin: allowedOrigins,
   credentials: true,
 }));
+
 
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
